@@ -58,6 +58,13 @@ class PokerHand:
             return True
         return False
 
+    @property
+    def is_straight(self):
+        self.cards.sort()
+        distance = Card.RANKS.index(self.cards[4].rank) - \
+                    Card.RANKS.index(self.cards[0].rank)
+        return self.number_matches == 0 and distance == 4
+
 
 count = 0
 matches = 0
@@ -65,11 +72,9 @@ while matches < 10:
     deck = Deck()
     deck.shuffle()
     hand = PokerHand(deck)
-
-
-    if hand.is_full_house:
+    if hand.is_straight:
         matches+= 1
-        #print(hand)
+        print(hand)
     count +=1
 
 print(f"probability of a full house is {100*matches/count}%")
